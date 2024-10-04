@@ -8,9 +8,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-
-  function handleSearch(term: string)
-  {
+  const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams)
     if (term)
     {
@@ -22,9 +20,9 @@ export default function Search({ placeholder }: { placeholder: string }) {
     }
     replace(`${pathname}?${params.toString()}`);
     console.log(replace, " : ", params.toString());
-  }
+  }, 300);
 
-  return (
+   return (
     <div className="relative flex flex-1 flex-shrink-0">
       <label htmlFor="search" className="sr-only">
         Search
